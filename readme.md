@@ -6,7 +6,6 @@
 > * node v6.4.0     [install](https://github.com/creationix/nvm#install-script)
 > * npm  v3.10.3
 
-
 > Project
 >
 > * .babelrc
@@ -23,11 +22,11 @@ Initialize npm packages
 ```
 $ npm i
 ```
-Edit asset files
-The only file you have to edit is `asset.js`,
-see [example](https://github.com/iamken1204/webpack.workflow.backend/blob/master/assets.js)
+Edit asset files   
+The only file you have to edit is `asset.js`,   
+see [example](https://github.com/iamken1204/webpack.workflow.backend/blob/master/assets.js)   
 Once done, you can start to build asset files
-```
+```bash
 # webpack will watch file and re-compile after every modification
 $ npm run dev
 # webpack will build assets within production mode
