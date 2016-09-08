@@ -1,10 +1,11 @@
-# Webpack work flow 📦
+# Webpack workflow for PHP back-end 📦
 
 ## Requirements
 > Server
 >
 > * node v6.4.0     [install](https://github.com/creationix/nvm#install-script)
 > * npm  v3.10.3
+
 
 > Project
 >
@@ -13,10 +14,27 @@
 > * webpack.config.js
 > * assets.js
 
-
+## Manage project assets
+Clone this boilerplate into your project's root path
+```
+$ git clone https://github.com/iamken1204/webpack.workflow.backend.git
+```
+Initialize npm packages
+```
+$ npm i
+```
+Edit asset files
+The only file you have to edit is `asset.js`,
+see [example](https://github.com/iamken1204/webpack.workflow.backend/blob/master/assets.js)
+Once done, you can start to build asset files
+```
+# webpack will watch file and re-compile after every modification
+$ npm run dev
+# webpack will build assets within production mode
+$ npm run build
+```
 
 ##### .babelrc
-
 ```
 {
   "presets": [
@@ -27,7 +45,6 @@
 ```
 
 ##### package.json
-
 ```json
 {
   "private": true,
@@ -62,7 +79,6 @@
 ```
 
 ##### webpack.config.js
-
 ```javascript
 var path = require('path')
 var webpack = require('webpack')
@@ -150,7 +166,6 @@ if (process.env.NODE_ENV === 'production') {
 ```
 
 ##### assets.js
-
 ```javascript
 let jsPath = './resources/assets/js/'
 let cssPath = './resources/assets/sass/'
@@ -167,7 +182,6 @@ module.exports.assets = {
 ```
 
 ##### example.layout.php
-
 ```php
 <?php
 
@@ -199,4 +213,3 @@ $jsfile = is_file($filepath) ? $fileflag : '';
 </body>
 </html>
 ```
-
