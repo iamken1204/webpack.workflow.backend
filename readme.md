@@ -23,8 +23,7 @@ Initialize npm packages
 $ npm i
 ```
 Edit asset files   
-The only file you have to edit is `asset.js`,   
-see [example](https://github.com/iamken1204/webpack.workflow.backend/blob/master/assets.js)   
+The only file you have to edit is `asset.js`, see [example](https://github.com/iamken1204/webpack.workflow.backend/blob/master/assets.js)   
 Once done, you can start to build asset files
 ```bash
 # webpack will watch file and re-compile after every modification
