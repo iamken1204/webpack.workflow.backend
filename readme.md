@@ -66,11 +66,11 @@ $ npm run build
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "vue": "^2.0.0-rc.4",
-    "vue-loader": "^9.4.2",
-    "vue-resource": "^0.9.3",
-    "vuex": "^2.0.0-rc.5",
-    "webpack": "^2.1.0-beta.20",
+    "vue": "^2.0.1",
+    "vue-loader": "^9.5.0",
+    "vue-resource": "^1.0.3",
+    "vuex": "^2.0.0",
+    "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.0"
   }
 }
