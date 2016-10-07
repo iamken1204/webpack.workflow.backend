@@ -22,9 +22,9 @@ module.exports = {
     filename: '[name].js',
     libraryTarget: 'umd'
   },
-  resolveLoader: {
-    root: path.join(__dirname, 'node_modules')
-  },
+  // resolveLoader: {
+  //   root: path.join(__dirname, 'node_modules')
+  // },
   module: {
     loaders: [
       {
