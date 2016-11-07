@@ -25,6 +25,9 @@ class Webpack
     /**
      * Fetch view component, generate corresponding bundleKey
      *
+     * If ASSET_ENV's value in app/.env file is set as 'prod',
+     * this helper will md5 the bundleKey.
+     *
      * The View class should contains property: 'bundleKey',
      * default is empty, and will be setted as
      * Yii::$app->controller->id . Yii::$app->controller->action->id,
@@ -43,7 +46,14 @@ class Webpack
                            Yii::$app->controller->action->id
             );
         }
-        $this->bundleKey = md5($key);
+
+        $asEnv = 'prod';
+        $dotEnvFilePath = Yii::getAlias('@app') . '/';
+        if (is_file($dotEnvFilePath . '.env')) {
+            (new \Dotenv\Dotenv($dotEnvFilePath))->load();
+            $asEnv = $_ENV['ASSET_ENV'];
+        }
+        $this->bundleKey = $asEnv=='prod' ? md5($key) : $key;
         return $this;
     }
 

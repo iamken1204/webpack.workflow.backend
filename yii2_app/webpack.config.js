@@ -6,6 +6,12 @@ var path = require('path')
 var webpack = require('webpack')
 
 // Kettan:
+// Get ASSET_ENV from .env file,
+// md5 chunk names if ASSET_ENV is 'prod'.
+require('dotenv').config()
+console.log('Process under environment:', process.env.ASSET_ENV)
+
+// Kettan:
 // webpack bundle css into js by default.
 // For convenience of representing usual scenario we use css,
 // this example uses ExtractTextPlugin to sepreate css out from bundled js file.
@@ -20,13 +26,13 @@ let generate = function () {
   // flat modules' assets
   for (moduleName in modules) {
     for (chunkName in modules[moduleName]) {
-      let hash = md5(moduleName + chunkName)
+      let key = moduleName + chunkName
+      let hash = process.env.ASSET_ENV==='prod' ? md5(key) : key
       entry[hash] = modules[moduleName][chunkName]
     }
   }
   for (chunkName in assets) {
-    let hash = chunkName==='vendors' ? chunkName : md5(chunkName)
-    entry[hash] = assets[chunkName]
+    entry[chunkName] = assets[chunkName]
   }
   return entry
 }
