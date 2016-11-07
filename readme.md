@@ -14,8 +14,7 @@
 
 > Composer
 >
-> * [phpdotenv](https://github.com/vlucas/phpdotenv)
-> `composer require vlucas/phpdotenv`
+> * [phpdotenv](https://github.com/vlucas/phpdotenv) `composer require vlucas/phpdotenv`
 
 ## Manage project assets
 Clone this boilerplate into your project's root path
