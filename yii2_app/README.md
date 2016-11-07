@@ -9,12 +9,6 @@
 # WORK_DIR=/path/to/your/yii/app
 npm i
 composer require vlucas/phpdotenv
-vim .env
-```
-
-* `.env`
-
-```
-# dev | prod
-ASSET_ENV=dev
+mv .env.example .env
+# if the ASSET_ENV === 'prod', webpack will md5 chumk name
 ```
