@@ -1,46 +1,18 @@
 var ASSET = require('./assets/asset')
-var assets = ASSET.assets
-var modules = ASSET.modules
-
 var path = require('path')
 var webpack = require('webpack')
 
-// Kettan:
-// Get ASSET_ENV from .env file,
-// md5 chunk names if ASSET_ENV is 'prod'.
-require('dotenv').config()
-console.log('Process under environment:', process.env.ASSET_ENV)
-
-// Kettan:
 // webpack bundle css into js by default.
 // For convenience of representing usual scenario we use css,
 // this example uses ExtractTextPlugin to sepreate css out from bundled js file.
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-// Kettan:
-// List all files are waiting to be compiled under config.entry
-// The path should start from the location of webpack.config.js
-var md5 = require('md5')
-let generate = function () {
-  let entry = {}
-  // flat modules' assets
-  for (moduleName in modules) {
-    for (chunkName in modules[moduleName]) {
-      let key = moduleName + chunkName
-      let hash = process.env.ASSET_ENV==='prod' ? md5(key) : key
-      entry[hash] = modules[moduleName][chunkName]
-    }
-  }
-  for (chunkName in assets) {
-    entry[chunkName] = assets[chunkName]
-  }
-  return entry
-}
-let entry = generate()
+// var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
+var entry = ASSET.getEntry()
 
 module.exports = {
   entry,
-  // Kettan:
   // [name] correspond to config.entry's key
   output: {
     path: path.resolve(__dirname, './web/dist'),
@@ -49,7 +21,6 @@ module.exports = {
     libraryTarget: 'umd'
   },
   resolve: {
-    // Kettan:
     // Set default directory of assets,
     // to reduce length and complexity while
     // importing js files.
@@ -57,7 +28,6 @@ module.exports = {
       path.resolve(__dirname, ASSET.basePath),
       "node_modules"
     ],
-    // Kettan:
     // Let webpack resolve suffix automatically.
     extensions: ['.js', '.vue', '.jsx']
   },
@@ -81,7 +51,6 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'url?limit=2048'
       },
-      // Kettan:
       // Add '?minimize' right after 'css-loader' to compress css file
       {
         test: /\.css$/,
@@ -99,7 +68,6 @@ module.exports = {
       }
     ]
   },
-  // Kettan:
   // Add 'ExtractTextPlugin' into plugins array
   // to let webpack know css should output as a individual file
   plugins: [

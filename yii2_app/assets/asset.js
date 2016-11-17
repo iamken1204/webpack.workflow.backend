@@ -1,6 +1,5 @@
 /*
-default assets naming format: <moduleName><controllerName><actionName>.js|css
-
+default assets naming format: <moduleName><controllerName>.<actionName>.js|css
 examples:
 - You are at page rendered by app\controllers\SiteController->actionIndex() (the basic module)
   src="/dist/<?= md5('basicsite.index') ?>.js"
@@ -8,25 +7,22 @@ examples:
   src="/dist/<?= md5('controlemployee/leave/main.index') ?>.js"
  */
 
-
-/**
- * The root path of js and css files.
- * All assets should be located under this path.
- * @type {String}
- */
-module.exports.basePath = './assets/'
+var md5 = require('md5')
+// Get ASSET_ENV from .env file,
+// md5 chunk names if ASSET_ENV is 'prod'.
+require('dotenv').config()
+console.log('Processing under environment:', process.env.ASSET_ENV)
 
 /**
  * Assets setting: modules.
  * format
    {
-     < moduleName >: {
-       < controllerName + actionName >: ['assetFile1', 'assetFile2', ...],
-     }
+     < moduleName >: require('./modules/< moduleName >/asset'),
+     ...
    }
  * @type {Object}
  */
-module.exports.modules = {
+let modules = {
   basic: require('./modules/basic/asset'),
 }
 
@@ -38,9 +34,36 @@ module.exports.modules = {
    }
  * @type {Object}
  */
-module.exports.assets = {
+let assets = {
   vendors: [
     'modules/basic/vendors/app/css/app.css',
     'modules/basic/vendors/app/js/app.js',
   ],
+}
+
+/**
+ * The root path of js and css files.
+ * All assets should be located under this path.
+ * @type {String}
+ */
+module.exports.basePath = './assets/'
+
+/**
+ * getEntry returns arranged entry object
+ * @return object
+ */
+module.exports.getEntry = function () {
+  let entry = {}
+  // flat modules' assets
+  for (moduleName in modules) {
+    for (chunkName in modules[moduleName]) {
+      let key = moduleName + chunkName
+      let hash = process.env.ASSET_ENV==='prod' ? md5(key) : key
+      entry[hash] = modules[moduleName][chunkName]
+    }
+  }
+  for (chunkName in assets) {
+    entry[chunkName] = assets[chunkName]
+  }
+  return entry
 }
