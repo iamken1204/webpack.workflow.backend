@@ -10,7 +10,9 @@
 >
 > * package.json
 > * webpack.config.js
-> * assets.js
+> * asset.js
+> * .babelrc
+> * .env
 
 > Composer
 >
