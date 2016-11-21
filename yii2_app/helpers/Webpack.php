@@ -40,7 +40,7 @@ class Webpack
     {
         $key = isset($view->bundleKey) ? (string) $view->bundleKey : '';
         if (empty($key) && isset(Yii::$app->controller)) {
-            $key = sprintf('%s%s.%s',
+            $key = sprintf('%s.%s.%s',
                            Yii::$app->controller->module->id,
                            Yii::$app->controller->id,
                            Yii::$app->controller->action->id

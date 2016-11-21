@@ -12,7 +12,7 @@ import md5 from 'md5'
 // Get ASSET_ENV from .env file,
 // md5 chunk names if ASSET_ENV is 'prod'.
 require('dotenv').config()
-console.log('Processing under environment:', process.env.ASSET_ENV)
+console.log(`Processing under environment: ${process.env.ASSET_ENV}`)
 
 /**
  * Assets setting: modules.
@@ -53,18 +53,20 @@ module.exports.basePath = './assets/'
  * getEntry returns arranged entry object
  * @return object
  */
-module.exports.getEntry = function () {
-  let entry = {}
-  // flat modules' assets
-  for (moduleName in modules) {
-    for (chunkName in modules[moduleName]) {
-      let key = moduleName + chunkName
-      let hash = process.env.ASSET_ENV==='prod' ? md5(key) : key
-      entry[hash] = modules[moduleName][chunkName]
-    }
-  }
-  for (chunkName in assets) {
-    entry[chunkName] = assets[chunkName]
-  }
-  return entry
-}
+ module.exports.getEntry = function () {
+   let entry = {}
+   // flatten modules' assets
+   for (let moduleName in modules) {
+     for (let chunkName in modules[moduleName]) {
+       let key = `${moduleName}.${chunkName}`
+       key = process.env.ASSET_ENV==='prod' ? md5(key) : key
+       entry[key] = modules[moduleName][chunkName]
+     }
+   }
+   // combine vendors assets
+   for (let chunkName in assets) {
+     entry[chunkName] = assets[chunkName]
+   }
+
+   return entry
+ }
