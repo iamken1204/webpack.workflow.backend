@@ -1,11 +1,11 @@
-var ASSET = require('./assets/asset')
-var path = require('path')
-var webpack = require('webpack')
+import ASSET from './assets/asset'
+import path from 'path'
+import webpack from 'webpack'
 
 // webpack bundle css into js by default.
 // For convenience of representing usual scenario we use css,
 // this example uses ExtractTextPlugin to sepreate css out from bundled js file.
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 // var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -35,21 +35,28 @@ module.exports = {
     loaders: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            scss: ExtractTextPlugin.extract({
+              fallbackLoader: 'style-loader',
+              loader: 'css-loader?minimize!sass-loader'
+            }),
+            css: ExtractTextPlugin.extract({
+              fallbackLoader: 'style-loader',
+              loader: 'css-loader?minimize'
+            }),
+          }
+        }
       },
       {
-        test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.jsx$/,
-        loader: 'babel',
+        test: /\.js[x]?$/,
+        loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'url?limit=2048'
+        loader: 'url-loader?limit=2048'
       },
       // Add '?minimize' right after 'css-loader' to compress css file
       {
@@ -74,8 +81,9 @@ module.exports = {
     new ExtractTextPlugin('[name].css'),
     new webpack.optimize.CommonsChunkPlugin({
       /* chunkName= */name: "vendors",
-      /* filename= */filename: "vendors.js"
-    })
+      /* filename= */ filename: "vendors.js"
+    }),
+    // new BundleAnalyzerPlugin(),
   ],
   devServer: {
     historyApiFallback: true,
@@ -85,7 +93,7 @@ module.exports = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
+  module.exports.devtool = false
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
@@ -96,6 +104,7 @@ if (process.env.NODE_ENV === 'production') {
       compress: {
         warnings: false
       }
-    })
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
   ])
 }
