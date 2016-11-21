@@ -7,7 +7,8 @@ examples:
   src="/dist/<?= md5('controlemployee/leave/main.index') ?>.js"
  */
 
-var md5 = require('md5')
+import md5 from 'md5'
+
 // Get ASSET_ENV from .env file,
 // md5 chunk names if ASSET_ENV is 'prod'.
 require('dotenv').config()
